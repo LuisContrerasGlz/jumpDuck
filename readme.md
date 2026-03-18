@@ -1,9 +1,10 @@
 ```markdown
-# Mini Duck Runner
+# Duck Runner
 
-Un pequeño juego estilo **Chrome Dino Runner**, pero con un **pato como personaje principal**, desarrollado con **HTML, CSS y JavaScript puro**.
+Un Juego estilo **Chrome Dino Runner**, pero con un **pato como personaje principal**.
+Desarrollado con **HTML, CSS y JavaScript puro**.
 
-El objetivo del juego es **saltar los obstáculos y sobrevivir el mayor tiempo posible** mientras la velocidad aumenta progresivamente.
+El objetivo del juego es **saltar los obstáculos y sobrevivir el mayor tiempo posible** mientras la velocidad aumenta progresivamente(nuevas funcionalidades se iran agregando con el tiempo, ver ultima seccion para ello).
 
 ---
 
