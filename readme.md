@@ -115,13 +115,6 @@ Algunas mejoras que podrían agregarse:
 * Más animaciones del pato
 * Diferentes tipos de obstáculos
 
----
-
-# 📄 Licencia
-
-Este proyecto es libre de usar para fines educativos y personales.
 
 ```
-
----
 ```
