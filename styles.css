@@ -1,0 +1,279 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.game-wrapper {
+  text-align: center;
+}
+
+h1 {
+  margin-bottom: 10px;
+  font-size: 24px;
+}
+
+.info {
+  margin-bottom: 10px;
+  color: #444;
+}
+
+#game {
+  position: relative;
+  width: 800px;
+  max-width: 95vw;
+  height: 220px;
+  border: 2px solid #333;
+  background: linear-gradient(to top, #ffffff 0%, #ffffff 75%, #f1f1f1 100%);
+  overflow: hidden;
+}
+
+#score {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+  z-index: 3;
+}
+
+#speed {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+  z-index: 3;
+}
+
+#message {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  z-index: 4;
+  line-height: 1.4;
+}
+
+#ground {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: #333;
+}
+
+/* PATO */
+#duck {
+  position: absolute;
+  left: 60px;
+  bottom: 3px;
+  width: 62px;
+  height: 48px;
+  z-index: 2;
+}
+
+.duck-body {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  width: 34px;
+  height: 24px;
+  background: #ffd54f;
+  border: 2px solid #333;
+  border-radius: 18px 18px 14px 14px;
+}
+
+.duck-head {
+  position: absolute;
+  right: 8px;
+  bottom: 22px;
+  width: 20px;
+  height: 20px;
+  background: #ffe082;
+  border: 2px solid #333;
+  border-radius: 50%;
+}
+
+.duck-eye {
+  position: absolute;
+  right: 6px;
+  top: 5px;
+  width: 4px;
+  height: 4px;
+  background: #111;
+  border-radius: 50%;
+}
+
+.duck-beak {
+  position: absolute;
+  right: -8px;
+  top: 8px;
+  width: 10px;
+  height: 6px;
+  background: #ff8f00;
+  border: 2px solid #333;
+  border-left: none;
+  border-radius: 0 4px 4px 0;
+}
+
+.duck-wing {
+  position: absolute;
+  left: 12px;
+  top: 6px;
+  width: 14px;
+  height: 10px;
+  background: #ffca28;
+  border: 2px solid #333;
+  border-radius: 10px 10px 8px 8px;
+  transform-origin: left center;
+  animation: flap 0.28s infinite alternate;
+}
+
+.duck-tail {
+  position: absolute;
+  left: -7px;
+  bottom: 15px;
+  width: 10px;
+  height: 10px;
+  background: #ffe082;
+  border: 2px solid #333;
+  transform: rotate(35deg);
+  border-radius: 3px;
+}
+
+.duck-leg {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 12px;
+  background: #ff8f00;
+  border-radius: 2px;
+}
+
+.leg-left {
+  left: 20px;
+}
+
+.leg-right {
+  left: 32px;
+}
+
+.duck-foot {
+  position: absolute;
+  bottom: -2px;
+  width: 8px;
+  height: 3px;
+  background: #ff8f00;
+  border-radius: 3px;
+}
+
+.foot-left {
+  left: 17px;
+}
+
+.foot-right {
+  left: 29px;
+}
+
+.running .leg-left {
+  animation: legRunLeft 0.18s infinite alternate;
+}
+
+.running .leg-right {
+  animation: legRunRight 0.18s infinite alternate;
+}
+
+.jumping .duck-wing {
+  animation: flapJump 0.12s infinite alternate;
+}
+
+.obstacle {
+  position: absolute;
+  bottom: 3px;
+  width: 22px;
+  height: 45px;
+  background: #2d7a2d;
+  border-radius: 3px;
+  border: 2px solid #1f4f1f;
+}
+
+.obstacle::before,
+.obstacle::after {
+  content: "";
+  position: absolute;
+  background: #2d7a2d;
+  border: 2px solid #1f4f1f;
+  border-radius: 3px;
+}
+
+.obstacle::before {
+  width: 8px;
+  height: 18px;
+  left: -8px;
+  top: 10px;
+  border-right: none;
+}
+
+.obstacle::after {
+  width: 8px;
+  height: 18px;
+  right: -8px;
+  top: 18px;
+  border-left: none;
+}
+
+.controls {
+  margin-top: 12px;
+  color: #555;
+}
+
+@keyframes legRunLeft {
+  from {
+    transform: translateY(0) rotate(10deg);
+  }
+  to {
+    transform: translateY(2px) rotate(-12deg);
+  }
+}
+
+@keyframes legRunRight {
+  from {
+    transform: translateY(2px) rotate(-12deg);
+  }
+  to {
+    transform: translateY(0) rotate(10deg);
+  }
+}
+
+@keyframes flap {
+  from {
+    transform: rotate(-8deg);
+  }
+  to {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes flapJump {
+  from {
+    transform: rotate(-20deg) scaleY(1);
+  }
+  to {
+    transform: rotate(20deg) scaleY(0.9);
+  }
+}

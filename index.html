@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mini Duck Runner</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="game-wrapper">
+    <h1>Mini Duck Runner</h1>
+    <div class="info">
+      Presiona <strong>ESPACIO</strong> o <strong>flecha arriba</strong> para saltar.
+    </div>
+
+    <div id="game">
+      <div id="speed">Velocidad: 1.0x</div>
+      <div id="score">0</div>
+      <div id="message">Presiona ESPACIO para iniciar</div>
+
+      <div id="duck" class="running">
+        <div class="duck-tail"></div>
+        <div class="duck-body">
+          <div class="duck-wing"></div>
+        </div>
+        <div class="duck-head">
+          <div class="duck-eye"></div>
+          <div class="duck-beak"></div>
+        </div>
+        <div class="duck-leg leg-left"></div>
+        <div class="duck-leg leg-right"></div>
+        <div class="duck-foot foot-left"></div>
+        <div class="duck-foot foot-right"></div>
+      </div>
+
+      <div id="ground"></div>
+    </div>
+
+    <div class="controls">
+      Cuando pierdas, presiona <strong>R</strong> para reiniciar.
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
