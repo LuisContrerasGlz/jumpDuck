@@ -1,108 +1,50 @@
 ```markdown
 # Duck Runner
 
-Un Juego estilo **Chrome Dino Runner**, pero con un **pato como personaje principal**.
-Desarrollado con **HTML, CSS y JavaScript puro**.
+Un juego estilo Chrome Dino Runner, pero con un pato como personaje principal. Desarrollado con HTML, CSS y JavaScript puro.
 
-El objetivo del juego es **saltar los obstáculos y sobrevivir el mayor tiempo posible** mientras la velocidad aumenta progresivamente(nuevas funcionalidades se iran agregando con el tiempo, ver ultima seccion para ello).
+El objetivo del juego es saltar los obstáculos y sobrevivir el mayor tiempo posible mientras la velocidad aumenta progresivamente.
 
----
-
-# Controles del juego
+## Controles del juego
 
 | Tecla | Acción |
-|------|------|
-| `Espacio` | Saltar |
-| `↑` Flecha arriba | Saltar |
-| `R` | Reiniciar el juego |
+|-------|--------|
+| Espacio | Saltar |
+| ↑ Flecha arriba | Saltar |
+| R | Reiniciar el juego |
 
----
+## Tecnologías utilizadas
 
-# Tecnologías utilizadas
-
-Este proyecto fue desarrollado usando tecnologías web básicas:
-
-- **HTML5** → estructura del juego
-- **CSS3** → diseño del pato, animaciones y estilo del juego
-- **JavaScript (Vanilla JS)** → lógica del juego
+- HTML5: estructura del juego
+- CSS3: diseño del pato, animaciones y estilo del juego
+- JavaScript (Vanilla JS): lógica del juego
 
 No utiliza frameworks ni librerías externas.
 
----
-
-# Estructura del proyecto
+## Estructura del proyecto
 
 ```
-
-mini-duck-runner
-│
+jumpDuck
 ├── index.html
 ├── styles.css
 ├── script.js
 └── README.md
-
-````
-
-### Descripción de los archivos
-
-| Archivo | Descripción |
-|------|------|
-| `index.html` | Estructura principal del juego |
-| `styles.css` | Estilos, animaciones y diseño del pato |
-| `script.js` | Lógica del juego, físicas y colisiones |
-| `README.md` | Documentación del proyecto |
-
----
-
-# Características del juego
-
-El juego incluye:
-
-✔ Personaje principal: **pato animado**  
-✔ Animación de **alas y patas**  
-✔ Sistema de **salto con física simple**  
-✔ **Obstáculos generados automáticamente**  
-✔ **Detección de colisiones**  
-✔ **Velocidad progresiva** (el juego se vuelve más difícil)  
-✔ **Sistema de puntuación**  
-✔ Reinicio del juego  
-
----
-
-# Cómo ejecutar el proyecto
-
-1️⃣ Clonar el repositorio
-
-```bash
-git clone https://github.com/tu-usuario/mini-duck-runner.git
-````
-
-2️⃣ Entrar al directorio
-
-```bash
-cd mini-duck-runner
 ```
 
-3️⃣ Abrir el archivo
+## Características del juego
 
-```
-index.html
-```
 
-Puedes abrirlo directamente en tu navegador o usando **Live Server en VS Code**.
+## Cómo ejecutar el proyecto
 
----
+Abre el archivo `index.html` directamente en tu navegador o usando Live Server en VS Code.
 
-# Desarrollo
+## Desarrollo
 
-Este proyecto fue creado como un ejercicio simple para practicar:
-
-* JavaScript
+Este proyecto fue creado como un ejercicio simple para practicar JavaScript.
 * Manipulación del DOM
 * Animaciones con CSS
 * Lógica básica de videojuegos
 
----
 
 # Mejoras futuras
 
@@ -115,7 +57,4 @@ Algunas mejoras que podrían agregarse:
 * Modo noche
 * Más animaciones del pato
 * Diferentes tipos de obstáculos
-
-
-```
 ```
