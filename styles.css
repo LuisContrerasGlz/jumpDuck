@@ -43,7 +43,7 @@ h1 {
   font-size: 18px;
   font-weight: bold;
   color: #333;
-  z-index: 3;
+  z-index: 5;
 }
 
 #speed {
@@ -53,7 +53,7 @@ h1 {
   font-size: 15px;
   font-weight: bold;
   color: #333;
-  z-index: 3;
+  z-index: 5;
 }
 
 #message {
@@ -65,7 +65,7 @@ h1 {
   font-weight: bold;
   color: #333;
   text-align: center;
-  z-index: 4;
+  z-index: 6;
   line-height: 1.4;
 }
 
@@ -75,6 +75,15 @@ h1 {
   width: 100%;
   height: 3px;
   background: #333;
+  z-index: 3;
+}
+
+/* CONTENEDOR DE NUBES */
+#clouds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* PATO */
@@ -84,7 +93,7 @@ h1 {
   bottom: 3px;
   width: 62px;
   height: 48px;
-  z-index: 2;
+  z-index: 4;
 }
 
 .duck-body {
@@ -202,6 +211,66 @@ h1 {
   animation: flapJump 0.12s infinite alternate;
 }
 
+/* PATO AGACHADO */
+.ducking .duck-body {
+  width: 38px;
+  height: 18px;
+  left: 8px;
+  bottom: 4px;
+  border-radius: 18px 18px 10px 10px;
+}
+
+.ducking .duck-head {
+  right: 2px;
+  bottom: 10px;
+  width: 18px;
+  height: 18px;
+}
+
+.ducking .duck-wing {
+  top: 10px;
+  left: 16px;
+  width: 16px;
+  height: 8px;
+  border-radius: 8px 8px 6px 6px;
+  animation: none;
+}
+
+.ducking .duck-tail {
+  left: -5px;
+  bottom: 8px;
+  width: 8px;
+  height: 8px;
+}
+
+.ducking .duck-leg {
+  height: 8px;
+  bottom: 0;
+}
+
+.ducking .leg-left {
+  left: 22px;
+}
+
+.ducking .leg-right {
+  left: 32px;
+}
+
+.ducking .duck-foot {
+  width: 8px;
+  height: 3px;
+  bottom: -2px;
+}
+
+.ducking .foot-left {
+  left: 19px;
+}
+
+.ducking .foot-right {
+  left: 29px;
+}
+
+/* CACTUS */
 .obstacle {
   position: absolute;
   bottom: 3px;
@@ -210,6 +279,7 @@ h1 {
   background: #2d7a2d;
   border-radius: 3px;
   border: 2px solid #1f4f1f;
+  z-index: 4;
 }
 
 .obstacle::before,
@@ -237,11 +307,45 @@ h1 {
   border-left: none;
 }
 
+/* NUBE-OBSTÁCULO */
+.cloud {
+  position: absolute;
+  width: 56px;
+  height: 24px;
+  background: #dcdcdc;
+  border-radius: 18px;
+  opacity: 0.95;
+  z-index: 2;
+}
+
+.cloud::before,
+.cloud::after {
+  content: "";
+  position: absolute;
+  background: #dcdcdc;
+  border-radius: 50%;
+}
+
+.cloud::before {
+  width: 24px;
+  height: 24px;
+  top: -10px;
+  left: 8px;
+}
+
+.cloud::after {
+  width: 28px;
+  height: 28px;
+  top: -14px;
+  right: 6px;
+}
+
 .controls {
   margin-top: 12px;
   color: #555;
 }
 
+/* ANIMACIONES */
 @keyframes legRunLeft {
   from {
     transform: translateY(0) rotate(10deg);

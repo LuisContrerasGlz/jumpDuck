@@ -3,22 +3,31 @@ const duck = document.getElementById("duck");
 const scoreEl = document.getElementById("score");
 const speedEl = document.getElementById("speed");
 const messageEl = document.getElementById("message");
+const cloudsContainer = document.getElementById("clouds");
 
 let duckBottom = 3;
 let velocity = 0;
 let gravity = 0.9;
 let jumpStrength = 14;
+
 let isJumping = false;
 let isGameOver = false;
 let gameStarted = false;
+let isDucking = false;
+
 let score = 0;
 let speed = 6;
 let speedMultiplier = 1;
+
 let frameId;
-let obstacleTimer;
 let scoreTimer;
 let speedTimer;
+let spawnTimeout;
+
 let obstacles = [];
+let clouds = [];
+
+const MIN_GAP = 260;
 
 function startGame() {
   if (gameStarted) return;
@@ -26,9 +35,9 @@ function startGame() {
   gameStarted = true;
   isGameOver = false;
   messageEl.textContent = "";
-  update();
 
-  obstacleTimer = setInterval(createObstacle, 1400);
+  update();
+  scheduleNextSpawn();
 
   scoreTimer = setInterval(() => {
     if (!isGameOver) {
@@ -55,6 +64,19 @@ function jump() {
   duck.classList.add("jumping");
 }
 
+function duckDown() {
+  if (!gameStarted) startGame();
+  if (isJumping || isGameOver) return;
+
+  isDucking = true;
+  duck.classList.add("ducking");
+}
+
+function duckUp() {
+  isDucking = false;
+  duck.classList.remove("ducking");
+}
+
 function update() {
   frameId = requestAnimationFrame(update);
 
@@ -73,12 +95,52 @@ function update() {
   duck.style.bottom = duckBottom + "px";
 
   moveObstacles();
+  moveClouds();
   checkCollision();
 }
 
-function createObstacle() {
+function scheduleNextSpawn() {
   if (isGameOver) return;
 
+  const delay = Math.max(900, 1500 - speed * 35);
+
+  spawnTimeout = setTimeout(() => {
+    spawnEntity();
+    scheduleNextSpawn();
+  }, delay);
+}
+
+function spawnEntity() {
+  if (isGameOver) return;
+  if (!isSpawnZoneFree()) return;
+
+  const type = Math.random() < 0.7 ? "obstacle" : "cloud";
+
+  if (type === "obstacle") {
+    createObstacle();
+  } else {
+    createCloud();
+  }
+}
+
+function isSpawnZoneFree() {
+  const allEntities = [...obstacles, ...clouds];
+
+  if (allEntities.length === 0) return true;
+
+  let rightMost = 0;
+
+  for (const entity of allEntities) {
+    const left = parseFloat(entity.style.left);
+    if (left > rightMost) {
+      rightMost = left;
+    }
+  }
+
+  return rightMost < game.clientWidth - MIN_GAP;
+}
+
+function createObstacle() {
   const obstacle = document.createElement("div");
   obstacle.classList.add("obstacle");
   obstacle.style.left = game.clientWidth + "px";
@@ -86,17 +148,47 @@ function createObstacle() {
   obstacles.push(obstacle);
 }
 
+function createCloud() {
+  const cloud = document.createElement("div");
+  cloud.classList.add("cloud");
+  cloud.style.left = game.clientWidth + "px";
+
+  // Altura ajustada para obligar a agacharse
+  // sin necesidad de brincar para tocarla.
+  cloud.style.top = "150px";
+
+  cloudsContainer.appendChild(cloud);
+  clouds.push(cloud);
+}
+
 function moveObstacles() {
-  obstacles.forEach((obstacle, index) => {
+  for (let i = obstacles.length - 1; i >= 0; i--) {
+    const obstacle = obstacles[i];
     let left = parseFloat(obstacle.style.left);
     left -= speed;
     obstacle.style.left = left + "px";
 
-    if (left < -50) {
+    if (left < -60) {
       obstacle.remove();
-      obstacles.splice(index, 1);
+      obstacles.splice(i, 1);
     }
-  });
+  }
+}
+
+function moveClouds() {
+  for (let i = clouds.length - 1; i >= 0; i--) {
+    const cloud = clouds[i];
+    let left = parseFloat(cloud.style.left);
+
+    // Misma velocidad horizontal que el cactus
+    left -= speed;
+    cloud.style.left = left + "px";
+
+    if (left < -120) {
+      cloud.remove();
+      clouds.splice(i, 1);
+    }
+  }
 }
 
 function checkCollision() {
@@ -112,7 +204,22 @@ function checkCollision() {
       duckRect.bottom > obstacleRect.top
     ) {
       gameOver();
-      break;
+      return;
+    }
+  }
+
+  for (const cloud of clouds) {
+    const cloudRect = cloud.getBoundingClientRect();
+
+    if (
+      duckRect.left < cloudRect.right &&
+      duckRect.right > cloudRect.left &&
+      duckRect.top < cloudRect.bottom &&
+      duckRect.bottom > cloudRect.top &&
+      !isDucking
+    ) {
+      gameOver();
+      return;
     }
   }
 }
@@ -120,32 +227,38 @@ function checkCollision() {
 function gameOver() {
   isGameOver = true;
   cancelAnimationFrame(frameId);
-  clearInterval(obstacleTimer);
   clearInterval(scoreTimer);
   clearInterval(speedTimer);
+  clearTimeout(spawnTimeout);
   messageEl.innerHTML = "Perdiste<br>Presiona R para reiniciar";
 }
 
 function resetGame() {
   cancelAnimationFrame(frameId);
-  clearInterval(obstacleTimer);
   clearInterval(scoreTimer);
   clearInterval(speedTimer);
+  clearTimeout(spawnTimeout);
 
   obstacles.forEach((obstacle) => obstacle.remove());
+  clouds.forEach((cloud) => cloud.remove());
+
   obstacles = [];
+  clouds = [];
 
   duckBottom = 3;
   velocity = 0;
   isJumping = false;
   isGameOver = false;
   gameStarted = false;
+  isDucking = false;
   score = 0;
   speed = 6;
   speedMultiplier = 1;
 
   duck.style.bottom = "3px";
   duck.classList.remove("jumping");
+  duck.classList.remove("ducking");
+
   scoreEl.textContent = "0";
   speedEl.textContent = "Velocidad: 1.0x";
   messageEl.textContent = "Presiona ESPACIO para iniciar";
@@ -157,7 +270,18 @@ document.addEventListener("keydown", (e) => {
     jump();
   }
 
+  if (e.code === "ArrowDown") {
+    e.preventDefault();
+    duckDown();
+  }
+
   if (e.key.toLowerCase() === "r") {
     resetGame();
+  }
+});
+
+document.addEventListener("keyup", (e) => {
+  if (e.code === "ArrowDown") {
+    duckUp();
   }
 });
