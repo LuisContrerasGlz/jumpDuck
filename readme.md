@@ -1,7 +1,7 @@
 ```markdown
 # Duck Runner
 
-Un juego estilo Chrome Dino Runner, pero con un pato como personaje principal. Desarrollado con HTML, CSS y JavaScript puro.
+Juego estilo Chrome Dino Runner, pero con un pato como personaje principal. Desarrollado con HTML, CSS y JavaScript.
 
 El objetivo del juego es saltar los obstáculos y sobrevivir el mayor tiempo posible mientras la velocidad aumenta progresivamente.
 
@@ -29,11 +29,8 @@ jumpDuck
 ├── styles.css
 ├── script.js
 └── README.md
+└── assests
 ```
-
-## Características del juego
-
-
 ## Cómo ejecutar el proyecto
 
 Abre el archivo `index.html` directamente en tu navegador o usando Live Server en VS Code.
@@ -50,11 +47,14 @@ Este proyecto fue creado como un ejercicio simple para practicar JavaScript.
 
 Algunas mejoras que podrían agregarse:
 
-* Nubes en movimiento
 * Efectos de sonido
-* Soporte para dispositivos móviles
 * Guardar puntuación máxima
 * Modo noche
 * Más animaciones del pato
 * Diferentes tipos de obstáculos
 ```
+
+**GitHub Pages:**  
+https://luiscontrerasglz.github.io/jumpDuck/
+
+![Gameplay del juego](./assets/gameplay.png)
