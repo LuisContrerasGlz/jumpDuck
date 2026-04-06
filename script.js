@@ -175,7 +175,7 @@ function createCloud() {
   cloud.style.left = game.clientWidth + "px";
 
   // Ajusta este valor si quieres bajar o subir la nube
-  cloud.style.top = "130px";
+  cloud.style.top = "150px";
 
   cloudsContainer.appendChild(cloud);
   clouds.push(cloud);
