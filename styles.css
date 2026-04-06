@@ -46,6 +46,16 @@ h1 {
   z-index: 5;
 }
 
+#highScore {
+  position: absolute;
+  top: 38px;
+  right: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  z-index: 5;
+}
+
 #speed {
   position: absolute;
   top: 10px;
@@ -78,7 +88,6 @@ h1 {
   z-index: 3;
 }
 
-/* CONTENEDOR DE NUBES */
 #clouds {
   position: absolute;
   inset: 0;
@@ -343,6 +352,24 @@ h1 {
 .controls {
   margin-top: 12px;
   color: #555;
+}
+
+.actions {
+  margin-top: 12px;
+}
+
+#resetHighScoreBtn {
+  padding: 10px 16px;
+  font-size: 14px;
+  border: 1px solid #333;
+  background: white;
+  color: #333;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+#resetHighScoreBtn:hover {
+  background: #f0f0f0;
 }
 
 /* ANIMACIONES */

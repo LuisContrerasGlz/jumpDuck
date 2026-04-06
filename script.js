@@ -2,8 +2,10 @@ const game = document.getElementById("game");
 const duck = document.getElementById("duck");
 const scoreEl = document.getElementById("score");
 const speedEl = document.getElementById("speed");
+const highScoreEl = document.getElementById("highScore");
 const messageEl = document.getElementById("message");
 const cloudsContainer = document.getElementById("clouds");
+const resetHighScoreBtn = document.getElementById("resetHighScoreBtn");
 
 let duckBottom = 3;
 let velocity = 0;
@@ -28,6 +30,10 @@ let obstacles = [];
 let clouds = [];
 
 const MIN_GAP = 260;
+const HIGH_SCORE_KEY = "jumpDuckHighScore";
+
+let highScore = Number(localStorage.getItem(HIGH_SCORE_KEY)) || 0;
+highScoreEl.textContent = "Récord: " + highScore;
 
 function startGame() {
   if (gameStarted) return;
@@ -43,6 +49,7 @@ function startGame() {
     if (!isGameOver) {
       score++;
       scoreEl.textContent = score;
+      updateHighScore();
     }
   }, 100);
 
@@ -53,6 +60,20 @@ function startGame() {
       speedEl.textContent = "Velocidad: " + speedMultiplier.toFixed(1) + "x";
     }
   }, 2500);
+}
+
+function updateHighScore() {
+  if (score > highScore) {
+    highScore = score;
+    localStorage.setItem(HIGH_SCORE_KEY, String(highScore));
+    highScoreEl.textContent = "Récord: " + highScore;
+  }
+}
+
+function resetHighScore() {
+  highScore = 0;
+  localStorage.removeItem(HIGH_SCORE_KEY);
+  highScoreEl.textContent = "Récord: 0";
 }
 
 function jump() {
@@ -153,9 +174,8 @@ function createCloud() {
   cloud.classList.add("cloud");
   cloud.style.left = game.clientWidth + "px";
 
-  // Altura ajustada para obligar a agacharse
-  // sin necesidad de brincar para tocarla.
-  cloud.style.top = "150px";
+  // Ajusta este valor si quieres bajar o subir la nube
+  cloud.style.top = "130px";
 
   cloudsContainer.appendChild(cloud);
   clouds.push(cloud);
@@ -179,8 +199,6 @@ function moveClouds() {
   for (let i = clouds.length - 1; i >= 0; i--) {
     const cloud = clouds[i];
     let left = parseFloat(cloud.style.left);
-
-    // Misma velocidad horizontal que el cactus
     left -= speed;
     cloud.style.left = left + "px";
 
@@ -226,6 +244,7 @@ function checkCollision() {
 
 function gameOver() {
   isGameOver = true;
+  updateHighScore();
   cancelAnimationFrame(frameId);
   clearInterval(scoreTimer);
   clearInterval(speedTimer);
@@ -261,6 +280,7 @@ function resetGame() {
 
   scoreEl.textContent = "0";
   speedEl.textContent = "Velocidad: 1.0x";
+  highScoreEl.textContent = "Récord: " + highScore;
   messageEl.textContent = "Presiona ESPACIO para iniciar";
 }
 
@@ -284,4 +304,8 @@ document.addEventListener("keyup", (e) => {
   if (e.code === "ArrowDown") {
     duckUp();
   }
+});
+
+resetHighScoreBtn.addEventListener("click", () => {
+  resetHighScore();
 });
