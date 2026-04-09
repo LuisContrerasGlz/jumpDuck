@@ -10,6 +10,7 @@ body {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  transition: background 0.8s ease;
 }
 
 .game-wrapper {
@@ -19,11 +20,14 @@ body {
 h1 {
   margin-bottom: 10px;
   font-size: 24px;
+  color: #222;
+  transition: color 0.8s ease;
 }
 
 .info {
   margin-bottom: 10px;
   color: #444;
+  transition: color 0.8s ease;
 }
 
 #game {
@@ -32,51 +36,85 @@ h1 {
   max-width: 95vw;
   height: 220px;
   border: 2px solid #333;
-  background: linear-gradient(to top, #ffffff 0%, #ffffff 75%, #f1f1f1 100%);
   overflow: hidden;
+  transition:
+    background 0.8s ease,
+    border-color 0.8s ease,
+    color 0.8s ease;
+}
+
+/* DIA */
+#game.day {
+  background: linear-gradient(to top, #ffffff 0%, #ffffff 72%, #eef7ff 100%);
+  border-color: #333;
+}
+
+/* NOCHE */
+#game.night {
+  background: linear-gradient(to top, #111827 0%, #172033 65%, #22314d 100%);
+  border-color: #d9e2f1;
+}
+
+#game.day ~ .controls,
+#game.day ~ .actions,
+#game.day ~ .info {
+  color: #444;
+}
+
+#game.night ~ .controls,
+#game.night ~ .actions {
+  color: #d7deea;
+}
+
+#score,
+#speed,
+#highScore,
+#message {
+  position: absolute;
+  font-weight: bold;
+  z-index: 6;
+  transition: color 0.8s ease;
 }
 
 #score {
-  position: absolute;
   top: 10px;
   right: 12px;
   font-size: 18px;
-  font-weight: bold;
-  color: #333;
-  z-index: 5;
 }
 
 #highScore {
-  position: absolute;
   top: 38px;
   right: 12px;
   font-size: 16px;
-  font-weight: bold;
-  color: #333;
-  z-index: 5;
 }
 
 #speed {
-  position: absolute;
   top: 10px;
   left: 12px;
   font-size: 15px;
-  font-weight: bold;
-  color: #333;
-  z-index: 5;
 }
 
 #message {
-  position: absolute;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 20px;
-  font-weight: bold;
-  color: #333;
   text-align: center;
-  z-index: 6;
   line-height: 1.4;
+}
+
+#game.day #score,
+#game.day #speed,
+#game.day #highScore,
+#game.day #message {
+  color: #333;
+}
+
+#game.night #score,
+#game.night #speed,
+#game.night #highScore,
+#game.night #message {
+  color: #f3f6fb;
 }
 
 #ground {
@@ -84,15 +122,71 @@ h1 {
   bottom: 0;
   width: 100%;
   height: 3px;
-  background: #333;
-  z-index: 3;
+  z-index: 4;
+  transition: background 0.8s ease;
 }
 
-#clouds {
+#game.day #ground {
+  background: #333;
+}
+
+#game.night #ground {
+  background: #e5edf7;
+}
+
+#clouds,
+#stars {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+#clouds {
   z-index: 1;
+}
+
+#stars {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#game.night #stars {
+  opacity: 1;
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  opacity: 0.85;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.75);
+}
+
+/* Sol / Luna */
+#sky-object {
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  z-index: 1;
+  transition:
+    background 0.8s ease,
+    box-shadow 0.8s ease;
+}
+
+#game.day #sky-object {
+  background: #ffd54f;
+  box-shadow: 0 0 20px rgba(255, 213, 79, 0.9);
+}
+
+#game.night #sky-object {
+  background: #f3f6fb;
+  box-shadow: 0 0 18px rgba(255, 255, 255, 0.7);
 }
 
 /* PATO */
@@ -102,7 +196,7 @@ h1 {
   bottom: 3px;
   width: 62px;
   height: 48px;
-  z-index: 4;
+  z-index: 5;
 }
 
 .duck-body {
@@ -114,6 +208,7 @@ h1 {
   background: #ffd54f;
   border: 2px solid #333;
   border-radius: 18px 18px 14px 14px;
+  transition: border-color 0.8s ease;
 }
 
 .duck-head {
@@ -125,6 +220,7 @@ h1 {
   background: #ffe082;
   border: 2px solid #333;
   border-radius: 50%;
+  transition: border-color 0.8s ease;
 }
 
 .duck-eye {
@@ -147,6 +243,7 @@ h1 {
   border: 2px solid #333;
   border-left: none;
   border-radius: 0 4px 4px 0;
+  transition: border-color 0.8s ease;
 }
 
 .duck-wing {
@@ -160,6 +257,7 @@ h1 {
   border-radius: 10px 10px 8px 8px;
   transform-origin: left center;
   animation: flap 0.28s infinite alternate;
+  transition: border-color 0.8s ease;
 }
 
 .duck-tail {
@@ -172,6 +270,7 @@ h1 {
   border: 2px solid #333;
   transform: rotate(35deg);
   border-radius: 3px;
+  transition: border-color 0.8s ease;
 }
 
 .duck-leg {
@@ -285,19 +384,43 @@ h1 {
   bottom: 3px;
   width: 22px;
   height: 45px;
-  background: #2d7a2d;
   border-radius: 3px;
+  z-index: 5;
+  transition:
+    background 0.8s ease,
+    border-color 0.8s ease;
+}
+
+#game.day .obstacle {
+  background: #2d7a2d;
   border: 2px solid #1f4f1f;
-  z-index: 4;
+}
+
+#game.night .obstacle {
+  background: #dfe8f5;
+  border: 2px solid #f8fbff;
 }
 
 .obstacle::before,
 .obstacle::after {
   content: "";
   position: absolute;
+  border-radius: 3px;
+  transition:
+    background 0.8s ease,
+    border-color 0.8s ease;
+}
+
+#game.day .obstacle::before,
+#game.day .obstacle::after {
   background: #2d7a2d;
   border: 2px solid #1f4f1f;
-  border-radius: 3px;
+}
+
+#game.night .obstacle::before,
+#game.night .obstacle::after {
+  background: #dfe8f5;
+  border: 2px solid #f8fbff;
 }
 
 .obstacle::before {
@@ -305,7 +428,7 @@ h1 {
   height: 18px;
   left: -8px;
   top: 10px;
-  border-right: none;
+  border-right: none !important;
 }
 
 .obstacle::after {
@@ -313,7 +436,7 @@ h1 {
   height: 18px;
   right: -8px;
   top: 18px;
-  border-left: none;
+  border-left: none !important;
 }
 
 /* NUBE-OBSTÁCULO */
@@ -321,18 +444,36 @@ h1 {
   position: absolute;
   width: 56px;
   height: 24px;
-  background: #dcdcdc;
   border-radius: 18px;
   opacity: 0.95;
   z-index: 2;
+  transition: background 0.8s ease;
+}
+
+#game.day .cloud {
+  background: #dcdcdc;
+}
+
+#game.night .cloud {
+  background: #b6c2d9;
 }
 
 .cloud::before,
 .cloud::after {
   content: "";
   position: absolute;
-  background: #dcdcdc;
   border-radius: 50%;
+  transition: background 0.8s ease;
+}
+
+#game.day .cloud::before,
+#game.day .cloud::after {
+  background: #dcdcdc;
+}
+
+#game.night .cloud::before,
+#game.night .cloud::after {
+  background: #b6c2d9;
 }
 
 .cloud::before {
@@ -352,6 +493,7 @@ h1 {
 .controls {
   margin-top: 12px;
   color: #555;
+  transition: color 0.8s ease;
 }
 
 .actions {
@@ -366,10 +508,26 @@ h1 {
   color: #333;
   border-radius: 6px;
   cursor: pointer;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease,
+    border-color 0.4s ease;
 }
 
 #resetHighScoreBtn:hover {
   background: #f0f0f0;
+}
+
+#game.night ~ .actions #resetHighScoreBtn,
+body.night-ui #resetHighScoreBtn {
+  background: #1b2435;
+  color: #eef4ff;
+  border-color: #d9e2f1;
+}
+
+#game.night ~ .actions #resetHighScoreBtn:hover,
+body.night-ui #resetHighScoreBtn:hover {
+  background: #28344b;
 }
 
 /* ANIMACIONES */

@@ -5,7 +5,9 @@ const speedEl = document.getElementById("speed");
 const highScoreEl = document.getElementById("highScore");
 const messageEl = document.getElementById("message");
 const cloudsContainer = document.getElementById("clouds");
+const starsContainer = document.getElementById("stars");
 const resetHighScoreBtn = document.getElementById("resetHighScoreBtn");
+const skyObject = document.getElementById("sky-object");
 
 let duckBottom = 3;
 let velocity = 0;
@@ -25,14 +27,18 @@ let frameId;
 let scoreTimer;
 let speedTimer;
 let spawnTimeout;
+let dayNightTimer;
 
 let obstacles = [];
 let clouds = [];
 
 const MIN_GAP = 260;
 const HIGH_SCORE_KEY = "jumpDuckHighScore";
+const DAY_NIGHT_INTERVAL = 15000; // 15 segundos
 
 let highScore = Number(localStorage.getItem(HIGH_SCORE_KEY)) || 0;
+let isNight = false;
+
 highScoreEl.textContent = "Récord: " + highScore;
 
 function startGame() {
@@ -44,6 +50,7 @@ function startGame() {
 
   update();
   scheduleNextSpawn();
+  startDayNightCycle();
 
   scoreTimer = setInterval(() => {
     if (!isGameOver) {
@@ -100,6 +107,8 @@ function duckUp() {
 
 function update() {
   frameId = requestAnimationFrame(update);
+
+  updateSkyObjectPosition();
 
   if (isJumping) {
     duckBottom += velocity;
@@ -173,8 +182,6 @@ function createCloud() {
   const cloud = document.createElement("div");
   cloud.classList.add("cloud");
   cloud.style.left = game.clientWidth + "px";
-
-  // Ajusta este valor si quieres bajar o subir la nube
   cloud.style.top = "150px";
 
   cloudsContainer.appendChild(cloud);
@@ -242,12 +249,67 @@ function checkCollision() {
   }
 }
 
+/* =========================
+   DIA / NOCHE
+========================= */
+
+function startDayNightCycle() {
+  dayNightTimer = setInterval(() => {
+    toggleDayNight();
+  }, DAY_NIGHT_INTERVAL);
+}
+
+function toggleDayNight() {
+  isNight = !isNight;
+
+  if (isNight) {
+    game.classList.remove("day");
+    game.classList.add("night");
+    document.body.classList.add("night-ui");
+  } else {
+    game.classList.remove("night");
+    game.classList.add("day");
+    document.body.classList.remove("night-ui");
+  }
+}
+
+function createStars() {
+  starsContainer.innerHTML = "";
+
+  for (let i = 0; i < 30; i++) {
+    const star = document.createElement("div");
+    star.classList.add("star");
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 55 + "%";
+    starsContainer.appendChild(star);
+  }
+}
+
+function updateSkyObjectPosition() {
+  if (!gameStarted || isGameOver) return;
+
+  const cycleDuration = DAY_NIGHT_INTERVAL;
+  const now = Date.now();
+  const phase = (now % cycleDuration) / cycleDuration;
+
+  const x = 40 + phase * (game.clientWidth - 80);
+  const y = 22 + Math.sin(phase * Math.PI) * 18;
+
+  skyObject.style.left = x + "px";
+  skyObject.style.top = y + "px";
+}
+
+/* =========================
+   GAME OVER / RESET
+========================= */
+
 function gameOver() {
   isGameOver = true;
   updateHighScore();
   cancelAnimationFrame(frameId);
   clearInterval(scoreTimer);
   clearInterval(speedTimer);
+  clearInterval(dayNightTimer);
   clearTimeout(spawnTimeout);
   messageEl.innerHTML = "Perdiste<br>Presiona R para reiniciar";
 }
@@ -256,6 +318,7 @@ function resetGame() {
   cancelAnimationFrame(frameId);
   clearInterval(scoreTimer);
   clearInterval(speedTimer);
+  clearInterval(dayNightTimer);
   clearTimeout(spawnTimeout);
 
   obstacles.forEach((obstacle) => obstacle.remove());
@@ -273,6 +336,11 @@ function resetGame() {
   score = 0;
   speed = 6;
   speedMultiplier = 1;
+  isNight = false;
+
+  game.classList.remove("night");
+  game.classList.add("day");
+  document.body.classList.remove("night-ui");
 
   duck.style.bottom = "3px";
   duck.classList.remove("jumping");
@@ -282,7 +350,14 @@ function resetGame() {
   speedEl.textContent = "Velocidad: 1.0x";
   highScoreEl.textContent = "Récord: " + highScore;
   messageEl.textContent = "Presiona ESPACIO para iniciar";
+
+  skyObject.style.left = "50%";
+  skyObject.style.top = "18px";
 }
+
+/* =========================
+   EVENTOS
+========================= */
 
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space" || e.code === "ArrowUp") {
@@ -309,3 +384,5 @@ document.addEventListener("keyup", (e) => {
 resetHighScoreBtn.addEventListener("click", () => {
   resetHighScore();
 });
+
+createStars();
